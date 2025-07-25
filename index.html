@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generator Aplikasi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans p-6">
+  <div class="max-w-3xl mx-auto space-y-6">
+    <h1 class="text-3xl font-bold text-center">🧠 Generator Aplikasi</h1>
+
+    <div class="space-y-4 bg-gray-800 p-4 rounded-xl shadow-lg">
+      <div>
+        <label class="block mb-1">Jenis Aplikasi</label>
+        <select id="jenisApp" class="w-full p-2 rounded bg-gray-700">
+          <option value="Web">Web</option>
+          <option value="Mobile">Mobile</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-1">Deskripsi Aplikasi</label>
+        <textarea id="deskripsi" rows="3" class="w-full p-2 rounded bg-gray-700" placeholder="Contoh: Aplikasi untuk mengatur pengembalian buku di perpustakaan"></textarea>
+      </div>
+
+      <div>
+        <label class="block mb-1">Teknologi Utama</label>
+        <select id="teknologi" class="w-full p-2 rounded bg-gray-700">
+          <option value="HTML">HTML</option>
+          <option value="React">React</option>
+          <option value="Flutter">Flutter</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-1">Target Platform</label>
+        <div class="flex gap-4">
+          <label><input type="checkbox" value="Android" class="mr-1 platform" checked> Android</label>
+          <label><input type="checkbox" value="Web" class="mr-1 platform" checked> Web</label>
+        </div>
+      </div>
+
+      <div>
+        <label class="block mb-1">Fitur Utama</label>
+        <div class="flex flex-wrap gap-4">
+          <label><input type="checkbox" value="Dashboard" class="mr-1 fitur" checked> Dashboard</label>
+          <label><input type="checkbox" value="Login/Register" class="mr-1 fitur"> Login/Register</label>
+          <label><input type="checkbox" value="Notifikasi" class="mr-1 fitur"> Notifikasi</label>
+          <label><input type="checkbox" value="CRUD" class="mr-1 fitur"> CRUD</label>
+          <label><input type="checkbox" value="Export Data" class="mr-1 fitur"> Export Data</label>
+          <label><input type="checkbox" value="Search" class="mr-1 fitur"> Search</label>
+          <label><input type="checkbox" value="Laporan" class="mr-1 fitur"> Laporan</label>
+        </div>
+      </div>
+
+      <button onclick="generateApp()" class="w-full bg-cyan-600 hover:bg-cyan-700 py-2 px-4 rounded mt-4 font-bold">
+        Generate Aplikasi 🚀
+      </button>
+    </div>
+
+    <div id="hasil" class="bg-gray-800 p-4 rounded-xl shadow-xl mt-4 space-y-2 hidden">
+      <h2 class="text-xl font-bold">📦 Hasil Generator</h2>
+      <p><strong>Judul Aplikasi:</strong> <span id="judul"></span></p>
+      <p><strong>Ringkasan:</strong> <span id="ringkasan"></span></p>
+      <p><strong>Stack Disarankan:</strong> <span id="stack"></span></p>
+      <p><strong>Fitur MVP:</strong> <span id="mvp"></span></p>
+      <p><strong>Prompt AI:</strong> <code class="text-green-400" id="prompt"></code></p>
+    </div>
+  </div>
+
+  <script>
+    function generateApp() {
+      const jenisApp = document.getElementById('jenisApp').value;
+      const deskripsi = document.getElementById('deskripsi').value.trim();
+      const teknologi = document.getElementById('teknologi').value;
+
+      if (!deskripsi) {
+        alert('Deskripsi aplikasi tidak boleh kosong!');
+        return;
+      }
+
+      const platforms = Array.from(document.querySelectorAll('.platform:checked')).map(cb => cb.value);
+      const fitur = Array.from(document.querySelectorAll('.fitur:checked')).map(cb => cb.value);
+
+      const words = deskripsi.split(' ');
+      const judul = words.length >= 3 ? words[2] : 'Aplikasi';
+      const ringkasan = `Sebuah aplikasi ${jenisApp.toLowerCase()} yang bertujuan untuk ${deskripsi.toLowerCase()}.`;
+      const stack = `${teknologi} + Firebase`;
+      const mvp = fitur.length ? fitur.join(', ') : 'Dashboard';
+      const prompt = `Buatkan aplikasi ${teknologi} sederhana dengan fitur ${mvp.toLowerCase()} untuk ${deskripsi.toLowerCase()}. Gunakan Firebase untuk backend dan autentikasi.`;
+
+      document.getElementById('judul').innerText = judul;
+      document.getElementById('ringkasan').innerText = ringkasan;
+      document.getElementById('stack').innerText = stack;
+      document.getElementById('mvp').innerText = mvp;
+      document.getElementById('prompt').innerText = prompt;
+
+      document.getElementById('hasil').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
